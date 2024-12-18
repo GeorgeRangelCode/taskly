@@ -1,9 +1,9 @@
 import { Text, View, StyleSheet } from "react-native";
 
-export default function IdeaScreen() {
+export default function historyScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Idea</Text>
+      <Text style={styles.text}>history</Text>
     </View>
   );
 }
