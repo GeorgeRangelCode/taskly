@@ -6,6 +6,7 @@ import { useState } from "react";
 type ShoppingListItemType = {
   id: string;
   name: string;
+  completedAtTimestamp?: number;
 };
 
 /* const testData = new Array(1000)
@@ -25,6 +26,27 @@ export default function App() {
       setShoppingList(newShoppingList);
       setValue("");
     }
+  };
+
+  const handleDelete = (id: string) => {
+    console.log("delete", id);
+    const newShoppingList = shoppingList.filter((item) => item.id !== id);
+    setShoppingList(newShoppingList);
+  };
+
+  const handleToggleComplete = (id: string) => {
+    const newShoppingList = shoppingList.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          completedAtTimestamp: item.completedAtTimestamp
+            ? undefined
+            : Date.now(),
+        };
+      }
+      return item;
+    });
+    setShoppingList(newShoppingList);
   };
 
   return (
@@ -48,7 +70,14 @@ export default function App() {
           <Text>Your shopping list is empty</Text>
         </View>
       }
-      renderItem={({ item }) => <ShoppingListItem name={item.name} />}
+      renderItem={({ item }) => (
+        <ShoppingListItem
+          name={item.name}
+          OnDelete={() => handleDelete(item.id)}
+          onToggleComplete={() => handleToggleComplete(item.id)}
+          isCompleted={Boolean(item.completedAtTimestamp)}
+        />
+      )}
     />
   );
 }
